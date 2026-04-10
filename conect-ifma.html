@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONECT 2025 — Congresso de Engenharia de Computação · IFMA</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">✅</span>
+    <div class="toast-body">
+      <strong id="toast-title">Sucesso</strong>
+      <span id="toast-msg">Operação realizada com sucesso.</span>
+    </div>
+  </div>
+
+  <!-- ── MODAL ── -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
+      <div class="modal-icon" id="modal-icon">🎉</div>
+      <h3 id="modal-heading" id="modal-title">Inscrição Confirmada!</h3>
+      <p id="modal-body">Sua inscrição no CONECT 2025 foi registrada com sucesso. Um e-mail de confirmação com os
+        próximos passos será enviado em breve.</p>
+      <button class="btn-primary" onclick="closeModal()" style="margin:0 auto;display:inline-flex;">Continuar</button>
+    </div>
+  </div>
+
+  <!-- ── NAV ── -->
+  <nav id="navbar">
+    <div class="nav-logo" onclick="scrollTop()">CONECT'25</div>
+    <ul class="nav-links" role="navigation">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#cronograma">Cronograma</a></li>
+      <li><a href="#palestrantes">Palestrantes</a></li>
+      <li><a href="#submissao">Submissão</a></li>
+      <li><a href="#local">Local</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#inscricao" class="nav-cta">Inscreva-se</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── MOBILE NAV ── -->
+  <div class="mobile-nav" id="mobileNav" role="navigation">
+    <a href="#sobre" onclick="closeMenu()">Sobre</a>
+    <a href="#cronograma" onclick="closeMenu()">Cronograma</a>
+    <a href="#palestrantes" onclick="closeMenu()">Palestrantes</a>
+    <a href="#submissao" onclick="closeMenu()">Submissão</a>
+    <a href="#local" onclick="closeMenu()">Local</a>
+    <a href="#faq" onclick="closeMenu()">FAQ</a>
+    <a href="#inscricao" onclick="closeMenu()">→ Inscreva-se agora</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+  <div class="hero-wrap">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-pill">IFMA · São Luís, MA · 14–16 Ago 2025</div>
+      <h1 class="hero">
+        Congresso de<br>
+        <span>Engenharia de</span><br>
+        Computação
+      </h1>
+      <p class="hero-sub">O maior evento de tecnologia e inovação do Maranhão. Três dias de palestras, workshops,
+        submissão de artigos e networking com profissionais do setor.</p>
+      <div class="hero-actions">
+        <a href="#inscricao" class="btn-primary">→ Garantir Inscrição</a>
+        <a href="#sobre" class="btn-secondary">↓ Saiba mais</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Dias de evento</div>
+        </div>
+        <div>
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Palestrantes</div>
+        </div>
+        <div>
+          <div class="stat-num">500</div>
+          <div class="stat-label">Vagas disponíveis</div>
+        </div>
+        <div>
+          <div class="stat-num">12</div>
+          <div class="stat-label">Workshops</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COUNTDOWN ── -->
+  <div class="countdown-bar">
+    <span class="cd-label">⏳ Faltam para o evento</span>
+    <div class="cd-units">
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-d">00</div>
+        <div class="cd-sub">Dias</div>
+      </div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-h">00</div>
+        <div class="cd-sub">Horas</div>
+      </div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-m">00</div>
+        <div class="cd-sub">Min</div>
+      </div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-s">00</div>
+        <div class="cd-sub">Seg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+     SOBRE
+════════════════════════════════════════════ -->
+  <section id="sobre" class="section">
+    <div class="about-grid">
+      <div>
+        <div class="section-label">// Sobre o evento</div>
+        <div class="accent-bar"></div>
+        <h2 class="section-title">Tecnologia, Inovação<br>e Futuro no IFMA</h2>
+        <p style="color:var(--text2);font-weight:300;margin-bottom:14px;">O CONECT é o principal congresso de Engenharia
+          de Computação do Instituto Federal do Maranhão — uma plataforma para estudantes, pesquisadores e profissionais
+          apresentarem pesquisas, aprenderem com os melhores especialistas e construírem conexões duradouras.</p>
+        <p style="color:var(--text2);font-weight:300;margin-bottom:28px;">Com uma grade que abrange IA, cibersegurança,
+          IoT e computação em nuvem, o CONECT 2025 promete ser a edição mais completa da história do evento.</p>
+        <a href="#inscricao" class="btn-primary">→ Participar do CONECT'25</a>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="about-icon">🤖</div>
+          <h4>Inteligência Artificial</h4>
+          <p>ML, Deep Learning e IA Generativa</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">🔒</div>
+          <h4>Cibersegurança</h4>
+          <p>Pentest, CTF e proteção de sistemas</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">☁️</div>
+          <h4>Cloud & DevOps</h4>
+          <p>AWS, Azure, Kubernetes e CI/CD</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">📡</div>
+          <h4>IoT & Embarcados</h4>
+          <p>Arduino, Raspberry Pi e MQTT</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">📱</div>
+          <h4>Mobile</h4>
+          <p>Flutter, React Native e UX mobile</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">🔬</div>
+          <h4>Pesquisa Científica</h4>
+          <p>Artigos, TCCs e projetos de extensão</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     CRONOGRAMA
+════════════════════════════════════════════ -->
+  <div id="cronograma" class="sched-section">
+    <div class="section-label">// Programação</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">Grade do Evento</h2>
+
+    <div class="sched-tabs" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true" onclick="switchDay('day1',this)">Dia 1 —
+        14/08</button>
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="switchDay('day2',this)">Dia 2 — 15/08</button>
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="switchDay('day3',this)">Dia 3 — 16/08</button>
+    </div>
+
+    <div class="sched-day active" id="day1" role="tabpanel">
+      <div class="sched-item">
+        <div class="sched-time">08:00–09:00</div>
+        <div>
+          <div class="sched-title">Credenciamento e Boas-Vindas</div>
+          <div class="sched-desc">Recepção dos participantes, entrega de kits e acesso ao sistema de credenciamento
+          </div>
+        </div><span class="badge badge-abertura">Abertura</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">09:00–10:30</div>
+        <div>
+          <div class="sched-title">Cerimônia de Abertura Oficial</div>
+          <div class="sched-desc">Palavra da direção do IFMA e apresentação da programação completa do evento</div>
+          <div class="sched-speaker">Dir. Acadêmico do IFMA + Comissão Organizadora</div>
+        </div><span class="badge badge-abertura">Abertura</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">10:30–12:00</div>
+        <div>
+          <div class="sched-title">Keynote: O Futuro da IA no Brasil</div>
+          <div class="sched-desc">Visão estratégica sobre como a inteligência artificial está transformando o mercado e
+            as oportunidades para engenheiros brasileiros</div>
+          <div class="sched-speaker">Dr. Rafael Moreira — INPE</div>
+        </div><span class="badge badge-palestra">Palestra</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">12:00–13:30</div>
+        <div>
+          <div class="sched-title">Intervalo para Almoço</div>
+          <div class="sched-desc">Área de alimentação e networking no pátio do IFMA</div>
+        </div><span class="badge badge-pausa">Pausa</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">13:30–15:30</div>
+        <div>
+          <div class="sched-title">Workshop: Machine Learning na Prática</div>
+          <div class="sched-desc">Mãos na massa com scikit-learn e TensorFlow. Construção, validação e deploy de modelos
+            reais</div>
+          <div class="sched-speaker">Profa. Dra. Camila Torres — UFMA</div>
+        </div><span class="badge badge-workshop">Workshop</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">15:30–17:00</div>
+        <div>
+          <div class="sched-title">Palestra: Cibersegurança em Infraestruturas Críticas</div>
+          <div class="sched-desc">Cenário atual de ameaças, cases reais e estratégias de proteção para sistemas
+            industriais e governamentais</div>
+          <div class="sched-speaker">Eng. Lucas Carvalho — CERT.br</div>
+        </div><span class="badge badge-palestra">Palestra</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">17:00–18:00</div>
+        <div>
+          <div class="sched-title">Sessão de Artigos — Bloco A</div>
+          <div class="sched-desc">Apresentação de 6 artigos selecionados nas áreas de IA e Segurança</div>
+        </div><span class="badge badge-artigos">Artigos</span>
+      </div>
+    </div>
+
+    <div class="sched-day" id="day2" role="tabpanel">
+      <div class="sched-item">
+        <div class="sched-time">08:30–10:00</div>
+        <div>
+          <div class="sched-title">Keynote: Cloud e a Nova Infraestrutura</div>
+          <div class="sched-desc">Como AWS, Azure e GCP estão redesenhando arquiteturas empresariais e criando novas
+            profissões</div>
+          <div class="sched-speaker">Ana Paula Silveira — Microsoft Brasil</div>
+        </div><span class="badge badge-palestra">Palestra</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">10:00–10:30</div>
+        <div>
+          <div class="sched-title">Coffee Break & Exposição de Projetos</div>
+          <div class="sched-desc">Visitação aos stands com projetos e protótipos dos participantes inscritos</div>
+        </div><span class="badge badge-pausa">Pausa</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">10:30–12:30</div>
+        <div>
+          <div class="sched-title">Workshop: DevOps com Docker e Kubernetes</div>
+          <div class="sched-desc">Deploy de aplicações reais usando pipelines CI/CD modernos em ambiente de laboratório
+          </div>
+          <div class="sched-speaker">Eng. Fernando Dias — ThoughtWorks</div>
+        </div><span class="badge badge-workshop">Workshop</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">12:30–14:00</div>
+        <div>
+          <div class="sched-title">Almoço</div>
+          <div class="sched-desc">Pausa para refeição e networking</div>
+        </div><span class="badge badge-pausa">Pausa</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">14:00–15:30</div>
+        <div>
+          <div class="sched-title">Mesa Redonda: Carreira em TI no Nordeste</div>
+          <div class="sched-desc">Painel com engenheiros maranhenses sobre mercado, salários e oportunidades regionais
+          </div>
+          <div class="sched-speaker">Mediação: Prof. Dr. Márcio Alves — IFMA</div>
+        </div><span class="badge badge-palestra">Mesa Redonda</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">15:30–17:30</div>
+        <div>
+          <div class="sched-title">Workshop: IoT com Raspberry Pi e MQTT</div>
+          <div class="sched-desc">Prática com sensores, atuadores e protocolo MQTT para comunicação entre dispositivos
+          </div>
+          <div class="sched-speaker">Prof. Dr. João Mendes — IFMA</div>
+        </div><span class="badge badge-workshop">Workshop</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">17:30–18:30</div>
+        <div>
+          <div class="sched-title">Sessão de Artigos — Bloco B & Projetos</div>
+          <div class="sched-desc">Apresentação de projetos de hardware, software embarcado e soluções IoT</div>
+        </div><span class="badge badge-artigos">Artigos</span>
+      </div>
+    </div>
+
+    <div class="sched-day" id="day3" role="tabpanel">
+      <div class="sched-item">
+        <div class="sched-time">09:00–10:30</div>
+        <div>
+          <div class="sched-title">Keynote: Startups de Deep Tech — Do Lab ao Mercado</div>
+          <div class="sched-desc">Empreendedorismo tecnológico, captação de investimento e transformação de pesquisa em
+            produto</div>
+          <div class="sched-speaker">Beatriz Costa — CEO, NeuroTech MA</div>
+        </div><span class="badge badge-palestra">Palestra</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">10:30–12:30</div>
+        <div>
+          <div class="sched-title">Hackathon Final — Pitch dos Times</div>
+          <div class="sched-desc">Times apresentam soluções desenvolvidas ao longo do evento para banca avaliadora.
+            Premiação de R$ 3.000</div>
+        </div><span class="badge badge-premio">Hackathon</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">12:30–14:00</div>
+        <div>
+          <div class="sched-title">Almoço de Encerramento</div>
+          <div class="sched-desc">Confraternização entre participantes, palestrantes e organização</div>
+        </div><span class="badge badge-pausa">Pausa</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">14:00–15:30</div>
+        <div>
+          <div class="sched-title">Workshop: Desenvolvimento Mobile com Flutter</div>
+          <div class="sched-desc">Construção de app do zero com Flutter, integração com APIs e boas práticas de UI/UX
+          </div>
+          <div class="sched-speaker">Mariana Lima — Google Developer Expert</div>
+        </div><span class="badge badge-workshop">Workshop</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">15:30–17:00</div>
+        <div>
+          <div class="sched-title">Cerimônia de Premiação e Encerramento</div>
+          <div class="sched-desc">Premiação dos melhores artigos, projetos, hackathon e participação especial da direção
+            do IFMA</div>
+        </div><span class="badge badge-premio">Premiação</span>
+      </div>
+      <div class="sched-item">
+        <div class="sched-time">17:00–18:00</div>
+        <div>
+          <div class="sched-title">Encerramento & Networking</div>
+          <div class="sched-desc">Happy hour de encerramento com networking livre entre todos os participantes</div>
+        </div><span class="badge badge-pausa">Social</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     PALESTRANTES
+════════════════════════════════════════════ -->
+  <div id="palestrantes" class="section">
+    <div class="section-label">// Palestrantes</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">Quem vai falar no CONECT'25</h2>
+    <p class="section-sub">Especialistas da academia e indústria compartilhando experiências reais e tendências do
+      mercado.</p>
+    <div class="speakers-grid">
+      <div class="speaker-card">
+        <div class="spk-avatar" style="background:var(--grad)">RM</div>
+        <div class="spk-name">Dr. Rafael Moreira</div>
+        <div class="spk-role">Pesquisador Sênior de IA</div>
+        <div class="spk-org">INPE — Instituto Nacional de Pesquisas Espaciais</div>
+        <div class="spk-bio">Doutor em Ciência da Computação pela USP com 15 anos de pesquisa em machine learning
+          aplicado a dados espaciais e climáticos. Mais de 80 artigos em periódicos internacionais.</div>
+        <div class="spk-tags"><span class="spk-tag">Machine Learning</span><span class="spk-tag">Deep
+            Learning</span><span class="spk-tag">Python</span></div>
+      </div>
+      <div class="speaker-card">
+        <div class="spk-avatar" style="background:var(--grad2)">CT</div>
+        <div class="spk-name">Profa. Dra. Camila Torres</div>
+        <div class="spk-role">Professora & Pesquisadora</div>
+        <div class="spk-org">UFMA — Universidade Federal do Maranhão</div>
+        <div class="spk-bio">Especialista em redes neurais e visão computacional. Coordena o laboratório de IA da UFMA e
+          desenvolve pesquisas em aplicações agrícolas com deep learning.</div>
+        <div class="spk-tags"><span class="spk-tag">Visão Computacional</span><span class="spk-tag">TensorFlow</span>
+        </div>
+      </div>
+      <div class="speaker-card">
+        <div class="spk-avatar" style="background:linear-gradient(135deg,#33d9f0,#4f8ef7)">LC</div>
+        <div class="spk-name">Eng. Lucas Carvalho</div>
+        <div class="spk-role">Analista de Segurança</div>
+        <div class="spk-org">CERT.br — Centro de Estudos e Resposta a Incidentes</div>
+        <div class="spk-bio">Especialista em análise de vulnerabilidades e resposta a incidentes. Certificado OSCP e
+          instrutor de CTFs nacionais com foco em infraestruturas críticas.</div>
+        <div class="spk-tags"><span class="spk-tag">Pentest</span><span class="spk-tag">CTF</span><span
+            class="spk-tag">Forense</span></div>
+      </div>
+      <div class="speaker-card">
+        <div class="spk-avatar" style="background:linear-gradient(135deg,#7c55e8,#d063d0)">AS</div>
+        <div class="spk-name">Ana Paula Silveira</div>
+        <div class="spk-role">Cloud Solutions Architect</div>
+        <div class="spk-org">Microsoft Brasil</div>
+        <div class="spk-bio">Arquiteta de soluções com 10 anos de experiência em Azure e transformação digital para
+          grandes enterprises brasileiros. MVP Microsoft desde 2019.</div>
+        <div class="spk-tags"><span class="spk-tag">Azure</span><span class="spk-tag">DevOps</span><span
+            class="spk-tag">Cloud</span></div>
+      </div>
+      <div class="speaker-card">
+        <div class="spk-avatar" style="background:linear-gradient(135deg,#fd79a8,#7c55e8)">BC</div>
+        <div class="spk-name">Beatriz Costa</div>
+        <div class="spk-role">CEO & Co-fundadora</div>
+        <div class="spk-org">NeuroTech MA — Startup de Tecnologia</div>
+        <div class="spk-bio">Engenheira de Computação formada pelo IFMA, fundou a NeuroTech MA focada em soluções de IA
+          para saúde. Finalista do BRASA Venture em 2024.</div>
+        <div class="spk-tags"><span class="spk-tag">Empreendedorismo</span><span class="spk-tag">HealthTech</span></div>
+      </div>
+      <div class="speaker-card">
+        <div class="spk-avatar" style="background:linear-gradient(135deg,#00b894,#33d9f0)">ML</div>
+        <div class="spk-name">Mariana Lima</div>
+        <div class="spk-role">Mobile Developer</div>
+        <div class="spk-org">Google Developer Expert · Freelancer</div>
+        <div class="spk-bio">GDE em Flutter e Dart com experiência em apps com mais de 5 milhões de downloads. Youtuber
+          e criadora de conteúdo técnico em desenvolvimento mobile.</div>
+        <div class="spk-tags"><span class="spk-tag">Flutter</span><span class="spk-tag">Dart</span><span
+            class="spk-tag">Mobile</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     SUBMISSÃO
+════════════════════════════════════════════ -->
+  <div id="submissao" class="section">
+    <div class="section-label">// Submissão Científica</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">Submeta seu Trabalho</h2>
+    <p class="section-sub">Apresente sua pesquisa para uma banca de especialistas. Os melhores trabalhos serão
+      publicados nos anais do CONECT.</p>
+    <div class="sub-grid">
+      <!-- Artigo -->
+      <div class="sub-card">
+        <div class="sub-icon">📄</div>
+        <div class="deadline">⏰ Prazo: 30/06/2025</div>
+        <h3>Artigo Científico</h3>
+        <p>Submeta artigos originais de pesquisa, estudos de caso ou revisões sistemáticas. Todos passam por revisão
+          duplo-cega.</p>
+        <div class="reqs">
+          <h5>Requisitos</h5>
+          <ul>
+            <li>6 a 10 páginas no formato SBC/IEEE</li>
+            <li>Arquivo PDF (máx. 10 MB)</li>
+            <li>Resumo em PT-BR e abstract em EN</li>
+            <li>Mínimo 5 referências bibliográficas</li>
+            <li>Trabalho inédito e não submetido em outro evento</li>
+          </ul>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;"
+          onclick="openSubForm('Artigo Científico')">→ Submeter Artigo</button>
+      </div>
+      <!-- Projeto -->
+      <div class="sub-card">
+        <div class="sub-icon">🛠️</div>
+        <div class="deadline">⏰ Prazo: 15/07/2025</div>
+        <h3>Projeto / TCC</h3>
+        <p>Apresente projetos de extensão, trabalhos de conclusão de curso, protótipos ou soluções tecnológicas
+          aplicadas.</p>
+        <div class="reqs">
+          <h5>Requisitos</h5>
+          <ul>
+            <li>Resumo expandido (3–4 páginas)</li>
+            <li>Vídeo de demonstração (até 5 min)</li>
+            <li>GitHub ou link de acesso ao projeto</li>
+            <li>Pelo menos 1 autor estudante do IFMA/UFMA</li>
+            <li>Documentação técnica mínima</li>
+          </ul>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;background:var(--grad2);"
+          onclick="openSubForm('Projeto / TCC')">→ Submeter Projeto</button>
+      </div>
+    </div>
+
+    <!-- Formulário de Submissão (embutido, aparece ao clicar) -->
+    <div class="sub-form-panel" id="sub-form-panel">
+      <h3 id="sub-form-title"
+        style="font-size:1.1rem;font-weight:800;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+        Submissão</h3>
+      <div class="form-group"><label>Título do Trabalho</label><input type="text" id="sub-titulo"
+          placeholder="Título completo do trabalho"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Área Temática</label>
+          <select id="sub-area">
+            <option value="">Selecione a área</option>
+            <option>Inteligência Artificial</option>
+            <option>Cibersegurança</option>
+            <option>Computação em Nuvem</option>
+            <option>IoT & Embarcados</option>
+            <option>Redes de Computadores</option>
+            <option>Engenharia de Software</option>
+            <option>Mobile & Interfaces</option>
+            <option>Outras Áreas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nº de Autores</label>
+          <select id="sub-autores">
+            <option>1 autor</option>
+            <option>2 autores</option>
+            <option>3 autores</option>
+            <option>4+ autores</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Nomes dos Autores</label><input type="text" id="sub-nomes"
+          placeholder="Nome Sobrenome, Nome Sobrenome..."></div>
+      <div class="form-group"><label>E-mail do Autor Principal</label><input type="email" id="sub-email"
+          placeholder="autor@email.com"></div>
+      <div class="form-group"><label>Instituição</label><input type="text" id="sub-inst" placeholder="IFMA, UFMA, etc.">
+      </div>
+      <div class="form-group"><label>Resumo / Abstract</label><textarea id="sub-resumo" rows="4"
+          placeholder="Descreva sua pesquisa, metodologia e resultados esperados..."></textarea></div>
+      <div class="form-group"><label>Upload do arquivo (PDF — simulado)</label><input type="file" accept=".pdf"
+          id="sub-arquivo"></div>
+      <div style="display:flex;gap:12px;margin-top:6px;">
+        <button class="btn-primary" onclick="submitWork()"
+          style="flex:1;justify-content:center;border:none;cursor:pointer;">→ Enviar Submissão</button>
+        <button class="btn-secondary" onclick="closeSubForm()" style="cursor:pointer;">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     INSCRIÇÃO
+════════════════════════════════════════════ -->
+  <div id="inscricao" class="section">
+    <div class="section-label">// Inscrição</div>
+    <div class="accent-bar"></div>
+    <div class="reg-wrap">
+      <!-- Info / Ingressos -->
+      <div class="reg-info">
+        <h2>Garanta sua Vaga no CONECT'25</h2>
+        <p>Inscrições abertas até 10/08/2025 ou enquanto houver vagas. Estudantes do IFMA e UFMA têm acesso gratuito com
+          comprovante de matrícula vigente.</p>
+        <div class="ticket-cards" role="radiogroup" aria-label="Categoria de ingresso">
+          <div class="ticket-card selected" role="radio" aria-checked="true" tabindex="0" onclick="selectTicket(this)"
+            onkeydown="if(event.key==='Enter')selectTicket(this)">
+            <div>
+              <div class="ticket-name">Estudante IFMA / UFMA</div>
+              <div class="ticket-desc">Com comprovante de matrícula vigente</div>
+            </div>
+            <div class="ticket-price ticket-free">Gratuito</div>
+          </div>
+          <div class="ticket-card" role="radio" aria-checked="false" tabindex="0" onclick="selectTicket(this)"
+            onkeydown="if(event.key==='Enter')selectTicket(this)">
+            <div>
+              <div class="ticket-name">Estudante Outras IES</div>
+              <div class="ticket-desc">Graduação ou Pós-Graduação</div>
+            </div>
+            <div class="ticket-price">R$ 45</div>
+          </div>
+          <div class="ticket-card" role="radio" aria-checked="false" tabindex="0" onclick="selectTicket(this)"
+            onkeydown="if(event.key==='Enter')selectTicket(this)">
+            <div>
+              <div class="ticket-name">Profissional</div>
+              <div class="ticket-desc">Acesso completo a todas as atividades</div>
+            </div>
+            <div class="ticket-price">R$ 120</div>
+          </div>
+          <div class="ticket-card" role="radio" aria-checked="false" tabindex="0" onclick="selectTicket(this)"
+            onkeydown="if(event.key==='Enter')selectTicket(this)">
+            <div>
+              <div class="ticket-name">Pesquisador / Professor</div>
+              <div class="ticket-desc">Com certificação e acesso aos anais</div>
+            </div>
+            <div class="ticket-price">R$ 90</div>
+          </div>
+        </div>
+        <div class="includes-box">
+          <div class="includes-label">Incluso em todas as categorias</div>
+          <p>✓ Acesso a todas as palestras e mesas-redondas<br>✓ Certificado digital (24h de carga horária)<br>✓ Coffee
+            breaks e kit do participante<br>✓ Acesso aos anais digitais do CONECT<br>✓ Grupo exclusivo no WhatsApp do
+            evento</p>
+        </div>
+      </div>
+
+      <!-- Formulário -->
+      <div class="reg-form">
+        <div class="form-title">Formulário de Inscrição</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome *</label>
+            <input type="text" id="r-nome" placeholder="Seu nome" autocomplete="given-name">
+            <div class="field-error" id="err-nome">Campo obrigatório</div>
+          </div>
+          <div class="form-group">
+            <label>Sobrenome *</label>
+            <input type="text" id="r-sobrenome" placeholder="Sobrenome" autocomplete="family-name">
+            <div class="field-error" id="err-sobrenome">Campo obrigatório</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-mail *</label>
+          <input type="email" id="r-email" placeholder="seu@email.com" autocomplete="email">
+          <div class="field-error" id="err-email">E-mail inválido</div>
+        </div>
+        <div class="form-group">
+          <label>CPF *</label>
+          <input type="text" id="r-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"
+            autocomplete="off">
+          <div class="field-error" id="err-cpf">CPF inválido</div>
+        </div>
+        <div class="form-group">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" id="r-tel" placeholder="(98) 9 0000-0000" oninput="maskTel(this)" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label>Instituição *</label>
+          <input type="text" id="r-inst" placeholder="Nome da sua faculdade ou empresa">
+          <div class="field-error" id="err-inst">Campo obrigatório</div>
+        </div>
+        <div class="form-group">
+          <label>Categoria</label>
+          <select id="r-cat">
+            <option>Estudante IFMA / UFMA</option>
+            <option>Estudante de Outras IES</option>
+            <option>Profissional</option>
+            <option>Pesquisador / Professor</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Principal Área de Interesse</label>
+          <select id="r-area">
+            <option>Inteligência Artificial</option>
+            <option>Cibersegurança</option>
+            <option>Cloud & DevOps</option>
+            <option>IoT & Embarcados</option>
+            <option>Mobile</option>
+            <option>Empreendedorismo Tech</option>
+            <option>Múltiplas Áreas</option>
+          </select>
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" id="r-terms">
+          <label for="r-terms">Concordo com os <a href="#faq"
+              onclick="event.preventDefault();showToast('ℹ️','Termos de Uso','Consulte o FAQ ou entre em contato: conect@ifma.edu.br')">termos
+              de uso</a> e autorizo o uso dos meus dados para fins do evento.</label>
+        </div>
+        <div class="field-error" id="err-terms" style="margin-top:-8px;margin-bottom:10px;">Aceite os termos para
+          continuar</div>
+        <button class="form-submit" onclick="submitReg()">→ Concluir Inscrição</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     LOCAL
+════════════════════════════════════════════ -->
+  <div id="local" class="section">
+    <div class="section-label">// Local & Hospedagem</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">Onde vai acontecer</h2>
+    <p class="section-sub">O CONECT'25 acontece no câmpus Monte Castelo do IFMA em São Luís — MA.</p>
+    <div class="map-grid">
+      <!-- Mapa SVG puro — zero APIs externas -->
+      <div class="map-container">
+        <svg class="map-svg-wrap" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="mapGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#192035" />
+              <stop offset="100%" stop-color="#0c1018" />
+            </radialGradient>
+            <pattern id="mapGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(79,142,247,.12)" stroke-width="1" />
+            </pattern>
+          </defs>
+          <rect width="700" height="400" fill="url(#mapGrad)" />
+          <rect width="700" height="400" fill="url(#mapGrid)" />
+          <!-- Ruas simuladas -->
+          <line x1="0" y1="200" x2="700" y2="200" stroke="rgba(255,255,255,.08)" stroke-width="18" />
+          <line x1="350" y1="0" x2="350" y2="400" stroke="rgba(255,255,255,.06)" stroke-width="12" />
+          <line x1="0" y1="120" x2="700" y2="260" stroke="rgba(255,255,255,.04)" stroke-width="8" />
+          <line x1="0" y1="300" x2="700" y2="100" stroke="rgba(255,255,255,.04)" stroke-width="8" />
+          <!-- Quadras -->
+          <rect x="60" y="60" width="100" height="70" rx="4" fill="rgba(79,142,247,.07)" stroke="rgba(79,142,247,.15)"
+            stroke-width="1" />
+          <rect x="200" y="40" width="120" height="80" rx="4" fill="rgba(79,142,247,.07)" stroke="rgba(79,142,247,.15)"
+            stroke-width="1" />
+          <rect x="440" y="70" width="90" height="80" rx="4" fill="rgba(79,142,247,.07)" stroke="rgba(79,142,247,.15)"
+            stroke-width="1" />
+          <rect x="80" y="250" width="110" height="80" rx="4" fill="rgba(79,142,247,.07)" stroke="rgba(79,142,247,.15)"
+            stroke-width="1" />
+          <rect x="450" y="240" width="130" height="90" rx="4" fill="rgba(79,142,247,.07)" stroke="rgba(79,142,247,.15)"
+            stroke-width="1" />
+          <!-- IFMA highlight -->
+          <rect x="270" y="150" width="160" height="110" rx="6" fill="rgba(79,142,247,.18)" stroke="rgba(79,142,247,.6)"
+            stroke-width="2" />
+          <text x="350" y="205" text-anchor="middle" fill="rgba(79,142,247,.9)" font-size="11" font-weight="700"
+            font-family="monospace">IFMA</text>
+          <text x="350" y="220" text-anchor="middle" fill="rgba(79,142,247,.6)" font-size="9"
+            font-family="monospace">Monte Castelo</text>
+          <!-- Pin -->
+          <circle cx="350" cy="148" r="10" fill="#4f8ef7" opacity=".9" />
+          <circle cx="350" cy="148" r="16" fill="rgba(79,142,247,.25)" />
+          <circle cx="350" cy="148" r="22" fill="rgba(79,142,247,.1)">
+            <animate attributeName="r" values="16;26;16" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values=".2;0;.2" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <polygon points="350,140 344,152 350,158 356,152" fill="#4f8ef7" />
+          <!-- Rótulos de ruas -->
+          <text x="30" y="197" fill="rgba(255,255,255,.3)" font-size="9" font-family="monospace">Av. Getúlio
+            Vargas</text>
+          <text x="355" y="30" fill="rgba(255,255,255,.3)" font-size="9" font-family="monospace">R. Afonso Pena</text>
+        </svg>
+        <div class="map-pin-label">
+          📍 IFMA Monte Castelo<br>
+          <span>Av. Getúlio Vargas, 04 — São Luís, MA</span>
+        </div>
+        <a class="map-link-btn" href="https://maps.google.com/?q=IFMA+Monte+Castelo+São+Luís" target="_blank"
+          rel="noopener">
+          🗺 Abrir no Maps
+        </a>
+      </div>
+
+      <!-- Info -->
+      <div class="map-info">
+        <div class="loc-card">
+          <h4>📍 Local do Evento</h4>
+          <p><strong style="color:var(--text)">IFMA — Campus Monte Castelo</strong><br>
+            Av. Getúlio Vargas, 04 — Monte Castelo<br>
+            São Luís — MA · CEP 65030-005<br><br>
+            <span style="color:var(--accent3)">🚌 Ônibus: linhas 201, 202, 55, 72</span>
+          </p>
+        </div>
+        <div class="loc-card">
+          <h4>🏨 Hospedagem Próxima</h4>
+          <p style="font-size:.78rem;color:var(--text3);margin-bottom:10px;">Preços estimados para a semana do evento
+          </p>
+          <div class="airbnb-list">
+            <a class="airbnb-item" href="https://www.airbnb.com.br/s/São-Luís--MA" target="_blank" rel="noopener">
+              <div class="airbnb-thumb">🏠</div>
+              <div class="airbnb-details">
+                <h5>Apt. Central São Luís</h5><span>0,8 km do IFMA · 2 quartos</span>
+              </div>
+              <div class="airbnb-price">~R$95/noite</div>
+            </a>
+            <a class="airbnb-item" href="https://www.airbnb.com.br/s/São-Luís--MA" target="_blank" rel="noopener">
+              <div class="airbnb-thumb">🏡</div>
+              <div class="airbnb-details">
+                <h5>Studio Monte Castelo</h5><span>1,2 km do IFMA · Studio</span>
+              </div>
+              <div class="airbnb-price">~R$65/noite</div>
+            </a>
+            <a class="airbnb-item" href="https://www.booking.com/searchresults.pt-br.html?ss=S%C3%A3o+Lu%C3%ADs"
+              target="_blank" rel="noopener">
+              <div class="airbnb-thumb">🏢</div>
+              <div class="airbnb-details">
+                <h5>Hotel Luzeiros</h5><span>2 km do IFMA · Hotel 4★</span>
+              </div>
+              <div class="airbnb-price">~R$200/noite</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     PATROCINADORES
+════════════════════════════════════════════ -->
+  <div class="sponsors-section" id="patrocinadores">
+    <div class="section-label">// Patrocinadores & Apoio</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title" style="margin-bottom:36px;">Quem torna o CONECT possível</h2>
+    <div class="sponsors-tier">
+      <div class="tier-label">— Ouro</div>
+      <div class="sponsors-row">
+        <div class="sponsor-box gold"><span class="sponsor-name">FAPEMA</span></div>
+        <div class="sponsor-box gold"><span class="sponsor-name">Microsoft</span></div>
+      </div>
+    </div>
+    <div class="sponsors-tier">
+      <div class="tier-label">— Prata</div>
+      <div class="sponsors-row">
+        <div class="sponsor-box silver"><span class="sponsor-name">AWS</span></div>
+        <div class="sponsor-box silver"><span class="sponsor-name">Stefanini</span></div>
+        <div class="sponsor-box silver"><span class="sponsor-name">TOTVS</span></div>
+      </div>
+    </div>
+    <div class="sponsors-tier">
+      <div class="tier-label">— Bronze & Apoio Institucional</div>
+      <div class="sponsors-row">
+        <div class="sponsor-box bronze"><span class="sponsor-name">Accenture</span></div>
+        <div class="sponsor-box bronze"><span class="sponsor-name">UFMA</span></div>
+        <div class="sponsor-box bronze"><span class="sponsor-name">CNPq</span></div>
+        <div class="sponsor-box bronze"><span class="sponsor-name">Prefeitura SL</span></div>
+      </div>
+    </div>
+    <div class="sponsor-cta">
+      <div>
+        <h4>Quer patrocinar o CONECT'25?</h4>
+        <p>Apresente sua marca para 500+ futuros engenheiros de computação do Maranhão</p>
+      </div>
+      <a href="mailto:conect@ifma.edu.br" class="btn-secondary">→ Fale Conosco</a>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+     FAQ
+════════════════════════════════════════════ -->
+  <div id="faq" class="faq-wrap">
+    <div class="section-label">// Perguntas Frequentes</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">FAQ</h2>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Quem pode participar do CONECT'25?<span
+          class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">O CONECT é aberto a estudantes de graduação e pós-graduação, pesquisadores, professores
+          e profissionais de tecnologia. Estudantes do IFMA e UFMA têm inscrição gratuita com comprovante de matrícula
+          vigente.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Como funciona a submissão de artigos?<span
+          class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">Todos os artigos passam por revisão duplo-cega por uma banca de especialistas. Os
+          artigos aceitos serão apresentados no evento e publicados nos anais do CONECT. O prazo de submissão é
+          30/06/2025 e o resultado será divulgado até 25/07/2025.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Haverá certificado de participação?<span
+          class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">Sim! Todos os participantes receberão certificado digital com carga horária de 24h (3
+          dias de evento). Apresentadores de artigos e projetos recebem certificado adicional. Os certificados são
+          emitidos em até 10 dias úteis após o evento.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Os workshops precisam de inscrição
+        separada?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">Os workshops estão incluídos na inscrição geral, mas as vagas são limitadas (30 por
+          workshop). As inscrições nos workshops serão abertas após a confirmação da inscrição no evento, por ordem de
+          chegada.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Como funciona o hackathon?<span
+          class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">O hackathon ocorre ao longo dos 3 dias do evento. Times de 3 a 5 pessoas desenvolvem
+          uma solução para um problema anunciado na abertura. No Dia 3 cada time tem 10 minutos de pitch para a banca. O
+          vencedor recebe R$ 3.000 e mentoria com empresas parceiras.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">O evento é presencial ou online?<span
+          class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">O CONECT!25 é 100% presencial no Campus Monte Castelo do IFMA em São Luís. As palestras
+          keynote serão transmitidas ao vivo pelo canal do YouTube do IFMA para quem não puder comparecer.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Como entrar em contato com a
+        organização?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region">
+        <div class="faq-a-inner">E-mail: conect@ifma.edu.br · Instagram: @conect_ifma · WhatsApp: (98) 99999-0000.
+          Atendimento de segunda a sexta, das 8h às 18h.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo"
+          style="-webkit-text-fill-color:unset;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.3rem;">
+          CONECT'25</div>
+        <p>Congresso de Engenharia de Computação do IFMA — a maior celebração de tecnologia e inovação do Maranhão.</p>
+        <div class="footer-social">
+          <a class="social-btn" href="https://instagram.com" target="_blank" rel="noopener"
+            aria-label="Instagram">📸</a>
+          <a class="social-btn" href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">💼</a>
+          <a class="social-btn" href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+          <a class="social-btn" href="https://wa.me/5598999990000" target="_blank" rel="noopener"
+            aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Evento</h5>
+        <ul>
+          <li><a href="#sobre">Sobre o CONECT</a></li>
+          <li><a href="#cronograma">Programação</a></li>
+          <li><a href="#palestrantes">Palestrantes</a></li>
+          <li><a href="#patrocinadores">Patrocinadores</a></li>
+          <li><a href="#local">Local</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Participação</h5>
+        <ul>
+          <li><a href="#inscricao">Inscreva-se</a></li>
+          <li><a href="#submissao">Submeter Artigo</a></li>
+          <li><a href="#submissao">Submeter Projeto</a></li>
+          <li><a href="#faq">Hackathon</a></li>
+          <li><a href="#faq">Certificados</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <ul>
+          <li><a href="mailto:conect@ifma.edu.br">conect@ifma.edu.br</a></li>
+          <li><a href="https://wa.me/5598999990000" target="_blank">(98) 99999-0000</a></li>
+          <li><a href="#local">IFMA Monte Castelo</a></li>
+          <li><a href="https://www.ifma.edu.br" target="_blank" rel="noopener">ifma.edu.br</a></li>
+          <li><a href="#faq">Termos & Privacidade</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 CONECT — Instituto Federal do Maranhão · Todos os direitos reservados</span>
+      <span>CONECT'25 · 14–16 AGO · SÃO LUÍS, MA</span>
+    </div>
+  </footer>
+  <script src="/script.js"></script>
+</body>
+
+</html>
