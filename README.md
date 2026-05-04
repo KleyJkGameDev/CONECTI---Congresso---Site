@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="conect-2026-final/client/public/logo.png" alt="CONECT! 2026" width="280" />
+  <img src="https://github.com/user-attachments/assets/5d913182-ffb7-48e5-b6df-3b606288502a" alt="CONECT! 2026" width="300" />
 </div>
 
 <br />
