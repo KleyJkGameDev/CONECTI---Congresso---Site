@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* CONECT 2025 — Dark Theme with Blue-Purple Gradient */
+  --primary: #4f8ef7;
+  --primary-foreground: #ffffff;
+  --sidebar-primary: #4f8ef7;
+  --sidebar-primary-foreground: #ffffff;
+  --chart-1: #4f8ef7;
+  --chart-2: #7c55e8;
+  --chart-3: #33d9f0;
+  --chart-4: #4f8ef7;
+  --chart-5: #7c55e8;
+  --radius: 0.65rem;
+  --background: #07090f;
+  --foreground: #e4e8f5;
+  --card: #131a2a;
+  --card-foreground: #e4e8f5;
+  --popover: #192035;
+  --popover-foreground: #e4e8f5;
+  --secondary: #7c55e8;
+  --secondary-foreground: #ffffff;
+  --muted: #445577;
+  --muted-foreground: #8899bb;
+  --accent: #4f8ef7;
+  --accent-foreground: #07090f;
+  --destructive: #ff4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(79, 142, 247, 0.14);
+  --input: #0c1018;
+  --ring: #4f8ef7;
+  --sidebar: #131a2a;
+  --sidebar-foreground: #e4e8f5;
+  --sidebar-accent: #4f8ef7;
+  --sidebar-accent-foreground: #07090f;
+  --sidebar-border: rgba(79, 142, 247, 0.14);
+  --sidebar-ring: #4f8ef7;
+}
+
+.dark {
+  /* CONECT 2025 — Dark Theme (same as light, already dark) */
+  --primary: #4f8ef7;
+  --primary-foreground: #ffffff;
+  --sidebar-primary: #4f8ef7;
+  --sidebar-primary-foreground: #ffffff;
+  --background: #07090f;
+  --foreground: #e4e8f5;
+  --card: #131a2a;
+  --card-foreground: #e4e8f5;
+  --popover: #192035;
+  --popover-foreground: #e4e8f5;
+  --secondary: #7c55e8;
+  --secondary-foreground: #ffffff;
+  --muted: #445577;
+  --muted-foreground: #8899bb;
+  --accent: #4f8ef7;
+  --accent-foreground: #07090f;
+  --destructive: #ff4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(79, 142, 247, 0.14);
+  --input: #0c1018;
+  --ring: #4f8ef7;
+  --chart-1: #4f8ef7;
+  --chart-2: #7c55e8;
+  --chart-3: #33d9f0;
+  --chart-4: #4f8ef7;
+  --chart-5: #7c55e8;
+  --sidebar: #131a2a;
+  --sidebar-foreground: #e4e8f5;
+  --sidebar-accent: #4f8ef7;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(79, 142, 247, 0.14);
+  --sidebar-ring: #4f8ef7;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   * Tailwind override for CONECT 2025 design system.
+   */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* CONECT 2025 Custom Components */
+  
+  /* Gradient text utility */
+  .grad-text {
+    @apply bg-gradient-to-r from-[#4f8ef7] via-[#7c55e8] to-[#33d9f0] bg-clip-text text-transparent;
+  }
+
+  /* Accent bar (section divider) */
+  .accent-bar {
+    @apply h-1 w-16 bg-gradient-to-r from-[#4f8ef7] to-[#7c55e8] rounded-full mb-4;
+  }
+
+  /* Glow effect for cards */
+  .glow-border {
+    @apply border border-[rgba(79,142,247,0.14)] shadow-[0_0_20px_rgba(79,142,247,0.08)];
+  }
+
+  /* Smooth fade-up animation */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.6s ease-out;
+  }
+
+  /* Blink animation for live indicator */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .blink {
+    animation: blink 2s infinite;
+  }
+}

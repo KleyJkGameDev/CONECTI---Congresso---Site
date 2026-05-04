@@ -1,0 +1,468 @@
+/**
+ * PÁGINA: Admin Dashboard
+ * 
+ * Dashboard para gerenciar:
+ * - Inscrições (listar, filtrar, exportar)
+ * - Submissões de artigos (listar, avaliar, aceitar/rejeitar)
+ * - Estatísticas do evento
+ * 
+ * TODO: Integrar com backend para dados reais
+ */
+
+import { useState } from 'react';
+import { BarChart3, Users, FileText, TrendingUp, Download, Search, Filter, Home } from 'lucide-react';
+import { useLocation } from 'wouter';
+
+interface Registration {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  cpf: string;
+  institution: string;
+  category: string;
+  area: string;
+  date: string;
+}
+
+interface Submission {
+  id: string;
+  title: string;
+  authors: string;
+  email: string;
+  area: string;
+  status: 'pending' | 'approved' | 'rejected';
+  date: string;
+}
+
+const mockRegistrations: Registration[] = [
+  {
+    id: '1',
+    firstName: 'João',
+    lastName: 'Silva',
+    email: 'joao@email.com',
+    cpf: '123.456.789-00',
+    institution: 'IFMA',
+    category: 'Estudante IFMA',
+    area: 'Inteligência Artificial',
+    date: '2026-07-15',
+  },
+  {
+    id: '2',
+    firstName: 'Maria',
+    lastName: 'Santos',
+    email: 'maria@email.com',
+    cpf: '987.654.321-00',
+    institution: 'UFMA',
+    category: 'Estudante Outra IES',
+    area: 'Cibersegurança',
+    date: '2026-07-16',
+  },
+];
+
+const mockSubmissions: Submission[] = [
+  {
+    id: '1',
+    title: 'IA em Diagnóstico Médico',
+    authors: 'João Silva, Maria Santos',
+    email: 'joao@email.com',
+    area: 'Inteligência Artificial',
+    status: 'pending',
+    date: '2026-07-20',
+  },
+  {
+    id: '2',
+    title: 'Segurança em APIs REST',
+    authors: 'Pedro Costa',
+    email: 'pedro@email.com',
+    area: 'Cibersegurança',
+    status: 'approved',
+    date: '2026-07-18',
+  },
+];
+
+export default function Admin() {
+  const [, setLocation] = useLocation();
+  const [activeTab, setActiveTab] = useState<'overview' | 'registrations' | 'submissions'>('overview');
+  const [registrations] = useState<Registration[]>(mockRegistrations);
+  const [submissions, setSubmissions] = useState<Submission[]>(mockSubmissions);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState('all');
+
+  const stats = [
+    {
+      icon: Users,
+      label: 'Inscrições',
+      value: registrations.length,
+      color: 'text-[#33d9f0]',
+      bg: 'bg-[rgba(51,217,240,0.1)]',
+    },
+    {
+      icon: FileText,
+      label: 'Submissões',
+      value: submissions.length,
+      color: 'text-[#4f8ef7]',
+      bg: 'bg-[rgba(79,142,247,0.1)]',
+    },
+    {
+      icon: TrendingUp,
+      label: 'Aprovadas',
+      value: submissions.filter((s) => s.status === 'approved').length,
+      color: 'text-[#10b981]',
+      bg: 'bg-[rgba(16,185,129,0.1)]',
+    },
+    {
+      icon: BarChart3,
+      label: 'Pendentes',
+      value: submissions.filter((s) => s.status === 'pending').length,
+      color: 'text-[#f59e0b]',
+      bg: 'bg-[rgba(245,158,11,0.1)]',
+    },
+  ];
+
+  const handleSubmissionStatus = (id: string, status: 'approved' | 'rejected') => {
+    setSubmissions((prev) =>
+      prev.map((sub) => (sub.id === id ? { ...sub, status } : sub))
+    );
+  };
+
+  const filteredRegistrations = registrations.filter((reg) =>
+    `${reg.firstName} ${reg.lastName} ${reg.email}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredSubmissions = submissions.filter((sub) => {
+    const matchesSearch = `${sub.title} ${sub.authors}`.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filterCategory === 'all' || sub.status === filterCategory;
+    return matchesSearch && matchesFilter;
+  });
+
+  const exportData = (type: 'registrations' | 'submissions') => {
+    const data = type === 'registrations' ? registrations : submissions;
+    const csv = [
+      Object.keys(data[0]).join(','),
+      ...data.map((item) => Object.values(item).join(',')),
+    ].join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${type}-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  };
+
+  return (
+    <div className="min-h-screen bg-[#07090f] text-white pt-16">
+      {/* Header */}
+      <div className="py-12 bg-gradient-to-b from-[#0c1018] to-[#07090f] border-b border-[rgba(79,142,247,0.14)]">
+        <div className="container max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-5xl font-black">Dashboard Admin</h1>
+            <button
+              onClick={() => setLocation('/')}
+              className="flex items-center gap-2 px-4 py-2 bg-[#4f8ef7] hover:bg-[#3d7ce8] text-white font-semibold rounded-lg transition-colors"
+            >
+              <Home size={20} />
+              Voltar a Home
+            </button>
+          </div>
+          <p className="text-[#8899bb]">Gerenciar inscricoes, submissoes e visualizar estatisticas do CONECT!26</p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="py-12">
+        <div className="container max-w-7xl mx-auto px-6">
+          {/* Stats */}
+          <div className="grid md:grid-cols-4 gap-6 mb-12">
+            {stats.map((stat, idx) => {
+              const Icon = stat.icon;
+              return (
+                <div
+                  key={idx}
+                  className={`${stat.bg} border border-[rgba(79,142,247,0.14)] rounded-lg p-6 hover:border-[rgba(79,142,247,0.28)] transition-all`}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <Icon className={`${stat.color}`} size={28} />
+                  </div>
+                  <div className="text-4xl font-black mb-1">{stat.value}</div>
+                  <div className="text-sm text-[#8899bb] font-medium">{stat.label}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Tabs */}
+          <div className="mb-8 flex gap-4 border-b border-[rgba(79,142,247,0.14)] overflow-x-auto">
+            {(['overview', 'registrations', 'submissions'] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-6 py-3 font-semibold transition-colors border-b-2 whitespace-nowrap ${
+                  activeTab === tab
+                    ? 'border-[#4f8ef7] text-[#4f8ef7]'
+                    : 'border-transparent text-[#8899bb] hover:text-white'
+                }`}
+              >
+                {tab === 'overview' && 'Visão Geral'}
+                {tab === 'registrations' && 'Inscrições'}
+                {tab === 'submissions' && 'Submissões'}
+              </button>
+            ))}
+          </div>
+
+          {/* Overview Tab */}
+          {activeTab === 'overview' && (
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Registrations by Category */}
+                <div className="bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg p-8">
+                  <h2 className="text-2xl font-bold mb-6 text-[#33d9f0]">Inscrições por Categoria</h2>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Estudante IFMA</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#4f8ef7]" style={{ width: '50%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">1</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Estudante Outra IES</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#33d9f0]" style={{ width: '50%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">1</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Profissional</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#7c55e8]" style={{ width: '0%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">0</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Pesquisador/Professor</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#10b981]" style={{ width: '0%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">0</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submissions by Area */}
+                <div className="bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg p-8">
+                  <h2 className="text-2xl font-bold mb-6 text-[#33d9f0]">Submissões por Área</h2>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Inteligência Artificial</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#4f8ef7]" style={{ width: '50%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">1</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Cibersegurança</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#33d9f0]" style={{ width: '50%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">1</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Cloud & DevOps</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#7c55e8]" style={{ width: '0%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">0</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#8899bb]">Outras</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 h-2 bg-[rgba(79,142,247,0.1)] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#10b981]" style={{ width: '0%' }} />
+                        </div>
+                        <span className="font-bold text-white w-8">0</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submission Status Summary */}
+              <div className="bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg p-8">
+                <h2 className="text-2xl font-bold mb-6 text-[#33d9f0]">Status das Submissões</h2>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="text-center p-4 bg-[rgba(16,185,129,0.1)] rounded-lg border border-[rgba(16,185,129,0.2)]">
+                    <div className="text-4xl font-black text-[#10b981] mb-2">
+                      {submissions.filter((s) => s.status === 'approved').length}
+                    </div>
+                    <div className="text-[#8899bb]">Aprovadas</div>
+                  </div>
+                  <div className="text-center p-4 bg-[rgba(245,158,11,0.1)] rounded-lg border border-[rgba(245,158,11,0.2)]">
+                    <div className="text-4xl font-black text-[#f59e0b] mb-2">
+                      {submissions.filter((s) => s.status === 'pending').length}
+                    </div>
+                    <div className="text-[#8899bb]">Pendentes</div>
+                  </div>
+                  <div className="text-center p-4 bg-[rgba(239,68,68,0.1)] rounded-lg border border-[rgba(239,68,68,0.2)]">
+                    <div className="text-4xl font-black text-[#ef4444] mb-2">
+                      {submissions.filter((s) => s.status === 'rejected').length}
+                    </div>
+                    <div className="text-[#8899bb]">Rejeitadas</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Registrations Tab */}
+          {activeTab === 'registrations' && (
+            <div className="space-y-6">
+              {/* Search and Export */}
+              <div className="flex gap-4 flex-col sm:flex-row">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-3 text-[#445577]" size={20} />
+                  <input
+                    type="text"
+                    placeholder="Buscar por nome ou e-mail..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg text-white placeholder-[#445577] focus:outline-none focus:border-[rgba(79,142,247,0.28)]"
+                  />
+                </div>
+                <button
+                  onClick={() => exportData('registrations')}
+                  className="px-4 py-2 bg-[#4f8ef7] hover:bg-[#3d6dd0] text-white font-semibold rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  <Download size={18} />
+                  Exportar
+                </button>
+              </div>
+
+              {/* Table */}
+              <div className="bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-[#0c1018] border-b border-[rgba(79,142,247,0.14)]">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-[#8899bb]">Nome</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-[#8899bb]">E-mail</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-[#8899bb]">Categoria</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-[#8899bb]">Instituição</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-[#8899bb]">Data</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredRegistrations.map((reg) => (
+                        <tr key={reg.id} className="border-b border-[rgba(79,142,247,0.08)] hover:bg-[rgba(79,142,247,0.05)]">
+                          <td className="px-6 py-4 text-white font-medium">
+                            {reg.firstName} {reg.lastName}
+                          </td>
+                          <td className="px-6 py-4 text-[#8899bb]">{reg.email}</td>
+                          <td className="px-6 py-4 text-[#8899bb]">{reg.category}</td>
+                          <td className="px-6 py-4 text-[#8899bb]">{reg.institution}</td>
+                          <td className="px-6 py-4 text-[#8899bb]">{new Date(reg.date).toLocaleDateString('pt-BR')}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Submissions Tab */}
+          {activeTab === 'submissions' && (
+            <div className="space-y-6">
+              {/* Search and Filter */}
+              <div className="flex gap-4 flex-col sm:flex-row">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-3 text-[#445577]" size={20} />
+                  <input
+                    type="text"
+                    placeholder="Buscar por título ou autores..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg text-white placeholder-[#445577] focus:outline-none focus:border-[rgba(79,142,247,0.28)]"
+                  />
+                </div>
+                <select
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  className="px-4 py-2 bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg text-white focus:outline-none focus:border-[rgba(79,142,247,0.28)]"
+                >
+                  <option value="all">Todos os Status</option>
+                  <option value="pending">Pendentes</option>
+                  <option value="approved">Aprovadas</option>
+                  <option value="rejected">Rejeitadas</option>
+                </select>
+                <button
+                  onClick={() => exportData('submissions')}
+                  className="px-4 py-2 bg-[#4f8ef7] hover:bg-[#3d6dd0] text-white font-semibold rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  <Download size={18} />
+                  Exportar
+                </button>
+              </div>
+
+              {/* Submissions List */}
+              <div className="space-y-4">
+                {filteredSubmissions.map((sub) => (
+                  <div key={sub.id} className="bg-[#131a2a] border border-[rgba(79,142,247,0.14)] rounded-lg p-6 hover:border-[rgba(79,142,247,0.28)] transition-all">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-white mb-2">{sub.title}</h3>
+                        <p className="text-[#8899bb] text-sm mb-2">Autores: {sub.authors}</p>
+                        <div className="flex gap-4 text-sm">
+                          <span className="text-[#445577]">Área: <span className="text-[#8899bb]">{sub.area}</span></span>
+                          <span className="text-[#445577]">Data: <span className="text-[#8899bb]">{new Date(sub.date).toLocaleDateString('pt-BR')}</span></span>
+                        </div>
+                      </div>
+                      <div className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        sub.status === 'approved' ? 'bg-[rgba(16,185,129,0.2)] text-[#10b981]' :
+                        sub.status === 'rejected' ? 'bg-[rgba(239,68,68,0.2)] text-[#ef4444]' :
+                        'bg-[rgba(245,158,11,0.2)] text-[#f59e0b]'
+                      }`}>
+                        {sub.status === 'approved' ? 'Aprovada' : sub.status === 'rejected' ? 'Rejeitada' : 'Pendente'}
+                      </div>
+                    </div>
+                    {sub.status === 'pending' && (
+                      <div className="flex gap-3 pt-4 border-t border-[rgba(79,142,247,0.14)]">
+                        <button
+                          onClick={() => handleSubmissionStatus(sub.id, 'approved')}
+                          className="flex-1 px-4 py-2 bg-[#10b981] hover:bg-[#059669] text-white font-semibold rounded-lg transition-colors"
+                        >
+                          Aprovar
+                        </button>
+                        <button
+                          onClick={() => handleSubmissionStatus(sub.id, 'rejected')}
+                          className="flex-1 px-4 py-2 bg-[#ef4444] hover:bg-[#dc2626] text-white font-semibold rounded-lg transition-colors"
+                        >
+                          Rejeitar
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
